@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Todo App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-light: #a5b4fc;
+            --secondary: #f59e0b;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --success: #10b981;
+            --danger: #ef4444;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/523d8047-6a9c-45ba-977b-55ad0cff138b.png') center/cover no-repeat;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        header .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* About Section */
+        .about-section {
+            padding: 80px 0;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease;
+        }
+        
+        .about-image:hover {
+            transform: translateY(-5px);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            position: relative;
+        }
+        
+        .about-text h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 60px 0;
+            background-color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background-color: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--light);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .feature-card p {
+            color: var(--gray);
+        }
+        
+        /* Todo CRUD Section */
+        .todo-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f0f4ff, #e0e7ff);
+        }
+        
+        .todo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .todo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .todo-header h2 {
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .input-group {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .input-group input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px 0 0 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .input-group input:focus {
+            border-color: var(--primary);
+        }
+        
+        .input-group button {
+            padding: 12px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        
+        .input-group button:hover {
+            background-color: #4f46e5;
+        }
+        
+        .todo-list {
+            list-style: none;
+        }
+        
+        .todo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--light);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .todo-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .todo-item.completed {
+            opacity: 0.7;
+        }
+        
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: var(--gray);
+        }
+        
+        .todo-item .todo-text {
+            flex: 1;
+            margin: 0 15px;
+        }
+        
+        .todo-item .todo-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .todo-item button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .todo-item button:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .todo-item .complete-btn {
+            color: var(--success);
+        }
+        
+        .todo-item .edit-btn {
+            color: var(--secondary);
+        }
+        
+        .todo-item .delete-btn {
+            color: var(--danger);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-light);
+        }
+        
+        .made-by {
+            font-size: 1rem;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .made-by strong {
+            color: var(--secondary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-image, .about-text {
+                min-width: 100%;
+            }
+            
+            .todo-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>About Our Todo App</h1>
+            <p>Organize your life, boost your productivity, and achieve more with our intuitive todo application.</p>
+        </div>
+    </header>
+    
+    <section class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7b4cced8-ae86-445f-b208-88f6a60bd57a.png" alt="Productivity workspace showing a laptop with our Todo app open alongside a notebook and coffee cup" />
+                </div>
+                <div class="about-text">
+                    <h2>Simplify Your Daily Tasks</h2>
+                    <p>Our Todo application is designed to help you stay organized and focused on what matters most. With a clean, intuitive interface and powerful features, managing your tasks has never been easier.</p>
+                    <p>Whether you're a busy professional, a student with multiple assignments, or someone just trying to keep track of daily chores, our app adapts to your needs and helps you stay on top of your responsibilities.</p>
+                    <p>We believe productivity should be simple, accessible, and even enjoyable. That's why we've carefully designed every aspect of our application to make task management effortless and efficient.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="features-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Key Features</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <h3>Create Tasks</h3>
+                    <p>Quickly add new tasks with our intuitive input system. Set priorities and add details to stay organized.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>Manage Todos</h3>
+                    <p>Easily view all your tasks in one place. Sort, filter, and organize them to match your workflow.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Complete Tasks</h3>
+                    <p>Mark tasks as complete with a single click. Enjoy the satisfaction of checking items off your list.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Update & Edit</h3>
+                    <p>Need to make changes? Update task details anytime with our simple editing interface.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <h3>Delete Todos</h3>
+                    <p>Remove tasks you no longer need with our clean delete functionality. Keep your list relevant.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Responsive Design</h3>
+                    <p>Works perfectly on all devices - desktop, tablet, or mobile. Stay productive anywhere.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="todo-section">
+        <div class="todo-container">
+            <div class="todo-header">
+                <h2>Try It Out</h2>
+            </div>
+            <div class="input-group">
+                <input type="text" id="todo-input" placeholder="Add a new todo...">
+                <button id="add-btn">Add</button>
+            </div>
+            <ul class="todo-list" id="todo-list">
+                <!-- Todos will be added here dynamically -->
+            </ul>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="social-links">
+                    
+                    <a href="https://www.instagram.com/thakur_katwa?igsh=MWV2NjA5bTU0emRoNg=="><i class="fab fa-instagram"></i></a>
+                    <a href="https://github.com/thakurkatawa"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/thakur-katawa-0833a0246"><i class="fab fa-linkedin"></i></a>
+                </div>
+                <p>© 2025 Todo App. All rights reserved.</p>
+                <p class="made-by">Made with ❤️ by <strong>Thakur</strong></p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const todoInput = document.getElementById('todo-input');
+            const addBtn = document.getElementById('add-btn');
+            const todoList = document.getElementById('todo-list');
+            let todos = JSON.parse(localStorage.getItem('todos')) || [];
+            
+            // Render existing todos
+            renderTodos();
+            
+            // Add new todo
+            addBtn.addEventListener('click', addTodo);
+            todoInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addTodo();
+                }
+            });
+            
+            function addTodo() {
+                const todoText = todoInput.value.trim();
+                if (todoText) {
+                    const newTodo = {
+                        id: Date.now(),
+                        text: todoText,
+                        completed: false
+                    };
+                    todos.push(newTodo);
+                    saveTodos();
+                    renderTodos();
+                    todoInput.value = '';
+                }
+            }
+            
+            function renderTodos() {
+                todoList.innerHTML = '';
+                todos.forEach(todo => {
+                    const todoItem = document.createElement('li');
+                    todoItem.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+                    todoItem.innerHTML = `
+                        <button class="complete-btn" onclick="toggleComplete(${todo.id})">
+                            <i class="fas ${todo.completed ? 'fa-redo' : 'fa-check'}"></i>
+                        </button>
+                        <span class="todo-text">${todo.text}</span>
+                        <div class="todo-actions">
+                            <button class="edit-btn" onclick="editTodo(${todo.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="delete-btn" onclick="deleteTodo(${todo.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    todoList.appendChild(todoItem);
+                });
+            }
+            
+            window.toggleComplete = function(id) {
+                todos = todos.map(todo => {
+                    if (todo.id === id) {
+                        return { ...todo, completed: !todo.completed };
+                    }
+                    return todo;
+                });
+                saveTodos();
+                renderTodos();
+            };
+            
+            window.editTodo = function(id) {
+                const todo = todos.find(todo => todo.id === id);
+                const newText = prompt('Edit your todo:', todo.text);
+                if (newText !== null && newText.trim() !== '') {
+                    todo.text = newText.trim();
+                    saveTodos();
+                    renderTodos();
+                }
+            };
+            
+            window.deleteTodo = function(id) {
+                if (confirm('Are you sure you want to delete this todo?')) {
+                    todos = todos.filter(todo => todo.id !== id);
+                    saveTodos();
+                    renderTodos();
+                }
+            };
+            
+            function saveTodos() {
+                localStorage.setItem('todos', JSON.stringify(todos));
+            }
+        });
+    </script>
+</body>
+</html>
+
